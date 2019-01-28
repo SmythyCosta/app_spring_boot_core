@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.coast896.DTO.ProductDTO;
 import com.coast896.model.Product;
 import com.coast896.repository.ProductRepository;
+import com.coast896.response.Response;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,24 +49,36 @@ public class ProductController {
 	
 	@ApiOperation(value="Save Product")
 	@PostMapping("/product")
-	public ResponseEntity<String> save(@Valid @RequestBody ProductDTO dto) {
+	public ResponseEntity<Response<ProductDTO>> save(@Valid @RequestBody ProductDTO dto, BindingResult result) {
 		
-		if(objRepository.existsByName(dto.getName())) {
-			return new ResponseEntity<String>("Fail -> Name already exists!", HttpStatus.BAD_REQUEST);
-        } 
+		Response<ProductDTO> response = new Response<ProductDTO>();
 		
+		// Check for DTO errors
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		// check if name already exists in DB 
+		//if(objRepository.existsByName(dto.getName())) {
+		//	return new ResponseEntity<String>("Fail -> Name already exists!", HttpStatus.BAD_REQUEST);
+        //} 
+		
+		// Entity receives DTO date
 		Product obj = new Product();
 		obj.setName(dto.getName());
 		obj.setActive(dto.getActive());
 		obj.setCost(dto.getCost());
 		obj.setDateCreated(dto.getDateCreated());
 		obj.setStock(dto.getStock());
-		
 		objRepository.save(obj);
 		
-		//return objRepository.save(product);
-		return ResponseEntity.ok().body("ok may persist in db!");
 		
+		// Set Data in response
+		dto.setId(obj.getId());
+		response.setData(dto);
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	@ApiOperation(value="Delete Product")
