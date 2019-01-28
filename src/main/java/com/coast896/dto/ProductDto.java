@@ -91,8 +91,14 @@ public class ProductDto {
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ProductDto [id=" + id + ", name=" + name + ", active=" + active + ", cost=" + cost + ", stock=" + stock
+				+ ", dateCreated=" + dateCreated + "]";
+	}
 	
-	
-	
+
 
 }
