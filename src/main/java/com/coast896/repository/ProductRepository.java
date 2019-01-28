@@ -7,5 +7,6 @@ import com.coast896.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Product findById(long id);
+	Boolean existsByName(String name);
 
 }

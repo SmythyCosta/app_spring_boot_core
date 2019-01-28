@@ -1,4 +1,4 @@
-package com.coast896.dto;
+package com.coast896.DTO;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-public class ProductDto {
+public class ProductDTO {
 	
 	private long id;
 	
@@ -26,11 +26,6 @@ public class ProductDto {
 	private int stock;
 	
 	private Date dateCreated;
-	
-	
-	public ProductDto() {
-		// TODO Auto-generated constructor stub
-	}
 
 
 	public long getId() {
