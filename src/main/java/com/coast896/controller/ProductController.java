@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coast896.model.Usuario;
-import com.coast896.repository.UsuarioRepository;
+import com.coast896.model.Product;
+import com.coast896.repository.ProductRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,39 +24,39 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value="/api")
-@Api(value="API REST Usuario")
-public class UsuarioController {
+@Api(value="API REST Product")
+public class ProductController {
 	
 	@Autowired
-	UsuarioRepository objRepository;
+	ProductRepository objRepository;
 	
-	@ApiOperation(value="Retorna uma lista de usuarios")
-	@GetMapping("/usuarios")
-	public List<Usuario> listar(){
+	@ApiOperation(value="List Product")
+	@GetMapping("/product")
+	public List<Product> listar(){
 		return objRepository.findAll();
 	}
 	
-	@ApiOperation(value="Retorna um usuarios em detales")
-	@GetMapping("/usuarios/{id}")
-	public Usuario detalher(@PathVariable(value="id") long id){
+	@ApiOperation(value="Find Product")
+	@GetMapping("/product/{id}")
+	public Product detalher(@PathVariable(value="id") long id){
 		return objRepository.findById(id);
 	}
 	
-	@ApiOperation(value="Salva um usuarios")
-	@PostMapping("/usuarios")
-	public Usuario salvar(@RequestBody @Valid Usuario obj) {
+	@ApiOperation(value="Salve Product")
+	@PostMapping("/product")
+	public Product salvar(@RequestBody @Valid Product obj) {
 		return objRepository.save(obj);
 	}
 	
-	@ApiOperation(value="Deleta um usuarios")
-	@DeleteMapping("/usuarios")
-	public void deletar(@RequestBody @Valid Usuario obj) {
+	@ApiOperation(value="Delete Product")
+	@DeleteMapping("/product")
+	public void deletar(@RequestBody @Valid Product obj) {
 		objRepository.delete(obj);
 	}
 	
-	@ApiOperation(value="Atualizar um usuarios")
-	@PutMapping("/usuarios")
-	public Usuario atualizar(@RequestBody @Valid Usuario obj) {
+	@ApiOperation(value="Update Product")
+	@PutMapping("/product")
+	public Product atualizar(@RequestBody @Valid Product obj) {
 		return objRepository.save(obj);
 	}
 	 
